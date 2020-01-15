@@ -17,3 +17,5 @@ The following guides illustrate how to use some features concretely:
 
 * [MyBatis Quick Start](https://github.com/mybatis/spring-boot-starter/wiki/Quick-Start)
 * [Accessing data with MySQL](https://spring.io/guides/gs/accessing-data-mysql/)
+
+![lesson 1 元字符规则](./src/main/resources/notes/regular-expression.md)
