@@ -1,3 +1,5 @@
+[TOC]
+
 # regular expression 正则表达式学习note
 
 **常用元字符**
