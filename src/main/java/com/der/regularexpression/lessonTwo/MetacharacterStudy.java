@@ -36,5 +36,18 @@ public class MetacharacterStudy {
         if (matcher.find()) {
             assertTrue(3 == matcher.start());
         }
+
+        pattern = Pattern.compile("\\\\007");
+        matcher = pattern.matcher("abc\\007abc");
+        if (matcher.find()) {
+            assertTrue(3 == matcher.start());
+        }
+
+        pattern = Pattern.compile("\\0101");
+        matcher = pattern.matcher("abc\\007abc");
+        if (matcher.find()) {
+            assertTrue(3 == matcher.start());
+        }
+
     }
 }
