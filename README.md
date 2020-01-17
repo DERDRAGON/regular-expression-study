@@ -13,7 +13,7 @@
 看看正则表达式，学习在java里如何使用
 
 # 学习链接
-[学习java中正则](https://www.yiibai.com/javaregex)
+[学习java中正则-易百教程](https://www.yiibai.com/javaregex)
 
 # Getting Started
 
