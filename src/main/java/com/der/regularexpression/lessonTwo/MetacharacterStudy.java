@@ -3,6 +3,7 @@ package com.der.regularexpression.lessonTwo;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -17,6 +18,215 @@ public class MetacharacterStudy {
         testMatchCharacters();
         testPredefinedCharacter();
         testPosixCharacter();
+        testUnicodeCharacter();
+        testJavaRegexBoundaryMatchers();
+        testJavaRegexGreeddyQuantifiers();
+        testJavaRegexReluctantQuantifiers();
+    }
+
+    /**
+     * Java正则逻辑运算符示例
+     */
+    private static void testJavaRegexLogicalOperators() {
+        Pattern pattern = Pattern.compile("to");
+        Matcher matcher = pattern.matcher("Welcome to yiibai.COM");
+        assertTrue(matcher.find());
+        assertTrue(8 == matcher.start());
+
+        pattern = Pattern.compile("t|o");
+        matcher = pattern.matcher("Welcome to yiibai.COM");
+        assertTrue(matcher.find());
+        assertTrue(4 == matcher.start());
+
+    }
+
+    /**
+     * Java正则Possessive量词
+     */
+    private static void testJavaRegexPossessiveQuantifiers() {
+
+    }
+
+
+    /**
+     * Reluctant量词示例
+     */
+    private static void testJavaRegexReluctantQuantifiers() {
+        Pattern pattern = Pattern.compile("T??");
+        Matcher matcher = pattern.matcher("abcdTatW");
+        assertTrue(matcher.find());
+        assertTrue(0 == matcher.start());
+
+        pattern = Pattern.compile("T*?");
+        matcher = pattern.matcher("[Bb12 T\tc!\u03B1");
+        assertTrue(matcher.find());
+        assertTrue(0 == matcher.start());
+
+        pattern = Pattern.compile("T+?");
+        matcher = pattern.matcher("[Bb12 TT\tc!\u03B1");
+        assertTrue(matcher.find());
+        assertTrue(6 == matcher.start());
+
+        pattern = Pattern.compile("T{2}?");
+        matcher = pattern.matcher("[Bb12 TT\tc!\u03B1");
+        assertTrue(matcher.find());
+        assertTrue(6 == matcher.start());
+
+        pattern = Pattern.compile("T{3}?");
+        matcher = pattern.matcher("[Bb12 TT\tc!\u03B1 TTTT");
+        assertTrue(matcher.find());
+        assertTrue(13 == matcher.start());
+
+        pattern = Pattern.compile("T{3,}?");
+        matcher = pattern.matcher("[Bb12 TT\tc!\u03B1 TTTT");
+        assertTrue(matcher.find());
+        assertTrue(13 == matcher.start());
+
+        pattern = Pattern.compile("T{3,5}?");
+        matcher = pattern.matcher("[Bb12 TT\tc!\u03B1 TTTTTT");
+        assertTrue(matcher.find());
+        assertTrue(13 == matcher.start());
+
+    }
+
+    /**
+     * Java正则贪婪量词
+     */
+    private static void testJavaRegexGreeddyQuantifiers() {
+        Pattern pattern = Pattern.compile("T?");
+        Matcher matcher = pattern.matcher("abcdTatW");
+        assertTrue(matcher.find());
+        assertTrue(0 == matcher.start());
+
+        pattern = Pattern.compile("T*");
+        matcher = pattern.matcher("[Bb12 T\tc!\u03B1");
+        assertTrue(matcher.find());
+        assertTrue(0 == matcher.start());
+
+        pattern = Pattern.compile("T+");
+        matcher = pattern.matcher("[Bb12 T\tc!\u03B1");
+        assertTrue(matcher.find());
+        assertTrue(6 == matcher.start());
+
+        pattern = Pattern.compile("T{3}");
+        matcher = pattern.matcher("[BbT12 TT\tc!\u03B1 TTT");
+        assertTrue(matcher.find());
+        assertTrue(14 == matcher.start());
+
+        pattern = Pattern.compile("T{2,}");
+        matcher = pattern.matcher("[BbT12 TT\tc!\u03B1 TTT");
+        assertTrue(matcher.find());
+        assertTrue(7 == matcher.start());
+        assertTrue(matcher.find());
+        assertTrue(14 == matcher.start());
+
+        pattern = Pattern.compile("T{2,5}");
+        matcher = pattern.matcher("[BbT12 TT\tc!\u03B1 TTTTTT");
+        assertTrue(matcher.find());
+        assertTrue(7 == matcher.start());
+
+    }
+
+    /**
+     * 边界匹配器示例
+     */
+    private static void testJavaRegexBoundaryMatchers() {
+        Pattern pattern = Pattern.compile("^");
+        Matcher matcher = pattern.matcher("ABbdbca \\tc");
+        assertTrue(matcher.find());
+        assertTrue(0 == matcher.start());
+
+        pattern = Pattern.compile("$");
+        matcher = pattern.matcher("[Bb12 \tc!\u03B1");
+        assertTrue(matcher.find());
+        assertTrue(10 == matcher.start());
+
+        pattern = Pattern.compile("\\b");
+        matcher = pattern.matcher("Welcome to Yiibai.COM");
+        assertTrue(matcher.find());
+        assertTrue(0 == matcher.start());
+
+        pattern = Pattern.compile("\\B");
+        matcher = pattern.matcher("Welcome to Yiibai.COM");
+        assertTrue(matcher.find());
+        assertTrue(1 == matcher.start());
+
+        pattern = Pattern.compile("\\A");
+        matcher = pattern.matcher("Welcome to Yiibai.COM");
+        assertTrue(matcher.find());
+        assertTrue(0 == matcher.start());
+
+        pattern = Pattern.compile("\\Z");
+        matcher = pattern.matcher("Welcome to Yiibai.COM");
+        assertTrue(matcher.find());
+        assertTrue(21 == matcher.start());
+
+        pattern = Pattern.compile("\\z");
+        matcher = pattern.matcher("Welcome to Yiibai.COM");
+        assertTrue(matcher.find());
+        assertTrue(21 == matcher.start());
+
+    }
+
+    private static void testUnicodeCharacter() {
+        Pattern pattern = Pattern.compile("\\p{IsLatin}");
+        Matcher matcher = pattern.matcher("ABbdbca \\tc");
+        assertTrue(matcher.find());
+        assertTrue(0 == matcher.start());
+
+        pattern = Pattern.compile("\\p{InGreek}");
+        matcher = pattern.matcher("[Bb12 \tc!\u03B1");
+        assertTrue(matcher.find());
+        assertTrue(9 == matcher.start());
+
+        pattern = Pattern.compile("\\P{InGreek}");
+        matcher = pattern.matcher("[Bb12 \tc!\u03B1");
+        assertTrue(matcher.find());
+        assertTrue(0 == matcher.start());
+
+        pattern = Pattern.compile("\\p{Lu}");
+        matcher = pattern.matcher("[Bb12 \tc!\u03B1");
+        assertTrue(matcher.find());
+        assertTrue(1 == matcher.start());
+
+        pattern = Pattern.compile("\\p{IsAlphabetic}");
+        matcher = pattern.matcher("[Bb12 \tc!\u03B1");
+        assertTrue(matcher.find());
+        assertTrue(1 == matcher.start());
+
+        pattern = Pattern.compile("\\p{Sc}");
+        matcher = pattern.matcher("[Bb12 \tc$!\u03B1");
+        assertTrue(matcher.find());
+        assertTrue(8 == matcher.start());
+
+        pattern = Pattern.compile("[\\p{L}&&[^\\p{Lu}]]");
+        matcher = pattern.matcher("!BSab\u03B1");
+        assertTrue(matcher.find());
+        assertTrue(3 == matcher.start());
+
+    }
+
+    private static void testJavaCharacter() {
+        Pattern pattern = Pattern.compile("\\p{javaLowerCase}");
+        Matcher matcher = pattern.matcher("ABbdbca \\tc");
+        assertTrue(matcher.find());
+        assertTrue(2 == matcher.start());
+
+        pattern = Pattern.compile("\\p{javaUpperCase}");
+        matcher = pattern.matcher("dbcaABb12\\tc");
+        assertTrue(matcher.find());
+        assertTrue(4 == matcher.start());
+
+        pattern = Pattern.compile("\\p{javaWhitespace}");
+        matcher = pattern.matcher("dbcaABb12 \\tc");
+        assertTrue(matcher.find());
+        assertTrue(9 == matcher.start());
+
+        pattern = Pattern.compile("\\p{javaMirrored}");
+        matcher = pattern.matcher("{dbcaABb12 \\tc");
+        assertTrue(matcher.find());
+        assertTrue(0 == matcher.start());
+
     }
 
     private static void testPosixCharacter() {
@@ -64,6 +274,21 @@ public class MetacharacterStudy {
         matcher = pattern.matcher("Bb12\\tc!");
         assertTrue(matcher.find());
         assertTrue(0 == matcher.start());
+
+        pattern = Pattern.compile("\\p{Blank}");
+        matcher = pattern.matcher("Bb12 c!");
+        assertTrue(matcher.find());
+        assertTrue(4 == matcher.start());
+
+        pattern = Pattern.compile("\\p{XDigit}");
+        matcher = pattern.matcher("Bb12\\tc!");
+        assertTrue(matcher.find());
+        assertTrue(0 == matcher.start());
+
+        pattern = Pattern.compile("\\p{Space}");
+        matcher = pattern.matcher("Bb12 tc!");
+        assertTrue(matcher.find());
+        assertTrue(4 == matcher.start());
 
     }
 
